@@ -29,10 +29,22 @@ async function registerUser(req, res) {
 }
 
 function editUser(req, res) {
+  const isSelf = req.params.id == res.locals.user.user_id;
+  const isAdmin = res.locals.user.role === "admin";
+  if (!isSelf && !isAdmin) {
+    res.sendStatus(403);
+    return;
+  }
   res.json({ message: "User item updated." });
 }
 
 async function removeUser(req, res) {
+  const isSelf = req.params.id == res.locals.user.user_id;
+  const isAdmin = res.locals.user.role === "admin";
+  if (!isSelf && !isAdmin) {
+    res.sendStatus(403);
+    return;
+  }
   const deleted = await deleteUserById(req.params.id);
   if (!deleted) {
     res.sendStatus(404);

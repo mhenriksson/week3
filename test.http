@@ -81,3 +81,17 @@ Content-Type: image/png
 
 < ./public/cool_pancake_tp.png
 --MyBoundary--
+
+### Login
+# @name login
+POST http://localhost:3000/api/v1/auth/login
+content-type: application/json
+
+{
+  "username": "testuser",
+  "password": "test1234"
+}
+
+### Get my info (uses token from login)
+GET http://localhost:3000/api/v1/auth/me
+Authorization: Bearer {{login.response.body.token}}

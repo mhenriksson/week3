@@ -37,11 +37,33 @@ async function catAdd(req, res) {
   res.status(201).json({ message: "New cat added.", cat: newCat });
 }
 
-function catUpdate(req, res) {
+async function catUpdate(req, res) {
+  const cat = await getOneCat(req.params.id);
+  if (!cat) {
+    res.sendStatus(404);
+    return;
+  }
+  const isOwner = cat.owner == res.locals.user.user_id;
+  const isAdmin = res.locals.user.role === "admin";
+  if (!isOwner && !isAdmin) {
+    res.sendStatus(403);
+    return;
+  }
   res.json({ message: "Cat item updated." });
 }
 
-function catDelete(req, res) {
+async function catDelete(req, res) {
+  const cat = await getOneCat(req.params.id);
+  if (!cat) {
+    res.sendStatus(404);
+    return;
+  }
+  const isOwner = cat.owner == res.locals.user.user_id;
+  const isAdmin = res.locals.user.role === "admin";
+  if (!isOwner && !isAdmin) {
+    res.sendStatus(403);
+    return;
+  }
   res.json({ message: "Cat item deleted." });
 }
 

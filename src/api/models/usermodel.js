@@ -1,4 +1,5 @@
 import promisePool from "../../utils/database.js";
+import bcrypt from "bcrypt";
 
 async function getAllUsers() {
   const [rows] = await promisePool.query("SELECT * FROM users");
@@ -16,7 +17,19 @@ async function getUserById(id) {
   return rows[0];
 }
 
+async function getUserByUsername(username) {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+  );
+  if (rows.length === 0) {
+    return null;
+  }
+  return rows[0];
+}
+
 async function createUser(userData) {
+  const hashedPassword = bcrypt.hashSync(userData.password, 10);
   const sql =
     "INSERT INTO users (name, username, email, role, password) VALUES (?, ?, ?, ?, ?)";
   const params = [
@@ -24,7 +37,7 @@ async function createUser(userData) {
     userData.username,
     userData.email,
     userData.role,
-    userData.password,
+    hashedPassword,
   ];
   const [result] = await promisePool.execute(sql, params);
   if (result.affectedRows === 0) {
@@ -50,4 +63,10 @@ async function deleteUserById(id) {
   return true;
 }
 
-export { getAllUsers, getUserById, createUser, deleteUserById };
+export {
+  getAllUsers,
+  getUserById,
+  getUserByUsername,
+  createUser,
+  deleteUserById,
+};
