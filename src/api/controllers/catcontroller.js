@@ -14,7 +14,11 @@ function catById(req, res) {
 }
 
 function catAdd(req, res) {
-  const newCat = addNewCat(req.body);
+  console.log("form fields:", req.body);
+  console.log("uploaded file:", req.file);
+
+  const uploadedFilename = req.file ? req.file.filename : null;
+  const newCat = addNewCat(req.body, uploadedFilename);
   res.status(201).json({ message: "New cat added.", cat: newCat });
 }
 

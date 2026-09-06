@@ -28,7 +28,7 @@ function getOneCat(id) {
   return null;
 }
 
-function addNewCat(data) {
+function addNewCat(data, filename) {
   const newId = cats.length + 1;
   const newCat = {
     cat_id: newId,
@@ -36,6 +36,7 @@ function addNewCat(data) {
     weight: data.weight,
     owner: data.owner,
     birthdate: data.birthdate,
+    filename: filename,
   };
   cats.push(newCat);
   return newCat;
