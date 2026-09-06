@@ -1,0 +1,56 @@
+### Get all cats
+GET http://localhost:3000/api/v1/cats
+
+### Get one cat
+GET http://localhost:3000/api/v1/cats/1
+
+### Add a new cat
+POST http://localhost:3000/api/v1/cats
+content-type: application/json
+
+{
+  "cat_name": "Testikissa",
+  "weight": 3.2,
+  "owner": "Mikko",
+  "birthdate": "2023-01-01"
+}
+
+### Update a cat
+PUT http://localhost:3000/api/v1/cats/1
+content-type: application/json
+
+{
+  "cat_name": "Updated name"
+}
+
+### Delete a cat
+DELETE http://localhost:3000/api/v1/cats/1
+
+### Get all users
+GET http://localhost:3000/api/v1/users
+
+### Get one user
+GET http://localhost:3000/api/v1/users/1
+
+### Add a new user
+POST http://localhost:3000/api/v1/users
+content-type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser",
+  "email": "test@example.com",
+  "role": "user",
+  "password": "test1234"
+}
+
+### Update a user
+PUT http://localhost:3000/api/v1/users/1
+content-type: application/json
+
+{
+  "name": "Updated name"
+}
+
+### Delete a user
+DELETE http://localhost:3000/api/v1/users/1
