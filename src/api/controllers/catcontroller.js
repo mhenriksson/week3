@@ -1,11 +1,17 @@
-import { getCats, getOneCat, addNewCat } from "../models/catmodel.js";
+import {
+  getCats,
+  getOneCat,
+  getCatsByOwner,
+  addNewCat,
+} from "../models/catmodel.js";
 
-function catList(req, res) {
-  res.json(getCats());
+async function catList(req, res) {
+  const cats = await getCats();
+  res.json(cats);
 }
 
-function catById(req, res) {
-  const cat = getOneCat(req.params.id);
+async function catById(req, res) {
+  const cat = await getOneCat(req.params.id);
   if (cat) {
     res.json(cat);
   } else {
@@ -13,12 +19,21 @@ function catById(req, res) {
   }
 }
 
-function catAdd(req, res) {
+async function catsByUser(req, res) {
+  const cats = await getCatsByOwner(req.params.id);
+  res.json(cats);
+}
+
+async function catAdd(req, res) {
   console.log("form fields:", req.body);
   console.log("uploaded file:", req.file);
 
   const uploadedFilename = req.file ? req.file.filename : null;
-  const newCat = addNewCat(req.body, uploadedFilename);
+  const newCat = await addNewCat(req.body, uploadedFilename);
+  if (!newCat) {
+    res.sendStatus(400);
+    return;
+  }
   res.status(201).json({ message: "New cat added.", cat: newCat });
 }
 
@@ -30,4 +45,4 @@ function catDelete(req, res) {
   res.json({ message: "Cat item deleted." });
 }
 
-export { catList, catById, catAdd, catUpdate, catDelete };
+export { catList, catById, catsByUser, catAdd, catUpdate, catDelete };

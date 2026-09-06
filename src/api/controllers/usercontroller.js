@@ -1,29 +1,44 @@
-import { getAllUsers, getUserById, createUser } from "../models/usermodel.js";
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  deleteUserById,
+} from "../models/usermodel.js";
 
-const listUsers = (req, res) => {
-  res.json(getAllUsers());
-};
+async function listUsers(req, res) {
+  const users = await getAllUsers();
+  res.json(users);
+}
 
-const getUser = (req, res) => {
-  const user = getUserById(req.params.id);
+async function getUser(req, res) {
+  const user = await getUserById(req.params.id);
   if (!user) {
     res.sendStatus(404);
     return;
   }
   res.json(user);
-};
+}
 
-const registerUser = (req, res) => {
-  const newUser = createUser(req.body);
+async function registerUser(req, res) {
+  const newUser = await createUser(req.body);
+  if (!newUser) {
+    res.sendStatus(400);
+    return;
+  }
   res.status(201).json({ message: "New user added.", user: newUser });
-};
+}
 
-const editUser = (req, res) => {
+function editUser(req, res) {
   res.json({ message: "User item updated." });
-};
+}
 
-const removeUser = (req, res) => {
+async function removeUser(req, res) {
+  const deleted = await deleteUserById(req.params.id);
+  if (!deleted) {
+    res.sendStatus(404);
+    return;
+  }
   res.json({ message: "User item deleted." });
-};
+}
 
 export { listUsers, getUser, registerUser, editUser, removeUser };

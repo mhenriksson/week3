@@ -11,7 +11,7 @@ content-type: application/json
 {
   "cat_name": "Testikissa",
   "weight": 3.2,
-  "owner": "Mikko",
+  "owner": 1,
   "birthdate": "2023-01-01"
 }
 
@@ -70,7 +70,7 @@ Content-Disposition: form-data; name="weight"
 --MyBoundary
 Content-Disposition: form-data; name="owner"
 
-Mikko
+1
 --MyBoundary
 Content-Disposition: form-data; name="birthdate"
 
@@ -81,4 +81,3 @@ Content-Type: image/png
 
 < ./public/cool_pancake_tp.png
 --MyBoundary--
-
